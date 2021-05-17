@@ -1,0 +1,89 @@
+.sign-in-header {
+    position: absolute;
+    font-size: 30px;
+    text-align: center;
+    background-color: rgb(87, 85, 85);
+    width: 100%;
+}
+
+.sign-in-header a {
+    color: white;
+}
+
+.sign-in-header > h3 {
+    margin: 10px 0 10px 0;
+}
+
+.sign-in-div {
+    background-color:rgb(244, 143, 96);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.sign-in-box {
+    position: absolute;
+    width: 400px;
+    border: 2px solid black;
+    box-shadow: 0px 0px 5px 1.5px grey;
+}
+
+.sign-in-box input {
+    width: 150px;
+    float: right;
+}
+
+.sign-in-form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.form-field {
+    width: 100%;
+    margin: 20px 10px 20px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-header {
+    text-align: center;
+    justify-content: center;
+}
+
+.form-bottom {
+    padding: 5px;
+}
+
+.form-field input {
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+.form-field-button {
+    justify-content: center;
+    text-align: center;
+}
+
+.form-field-button button {
+    padding: 10px 20px 10px 20px;
+    background-color: white;
+    border: 1px solid salmon;
+    border-radius: 10px;
+}
+
+.form-field-button button:hover {
+    transition: 300ms;
+    cursor: pointer;
+    background-color:rgb(244, 143, 96);
+    color: white;
+}

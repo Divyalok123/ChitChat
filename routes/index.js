@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', function(req, res) {
-    res.render('main');
+router.get('/', (req, res) => {
+    res.render('home');
 });
 
-router.get('/home', function(req, res) {
-    res.render('home', {
-        layout: 'homelayout'
-    });
-});
-
+router.use('/signup', require('../routes/signup.js'));
+router.use('/signin', require('../routes/signin.js'));
 module.exports = router;
