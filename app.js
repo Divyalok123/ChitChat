@@ -7,9 +7,14 @@ const { urlencoded } = require('express');
 const flash = require('connect-flash');
 const session = require('express-session');
 const middlewares = require('./config/middlewares');
+const favicon = require('serve-favicon');
+const path = require('path');
 
 //static files
 app.use(express.static(__dirname + '/assets'));
+
+// serving the favicon
+app.use(favicon(path.join(__dirname,'assets', 'img', 'favicon.ico')));
 
 // express-session
 app.use(session({

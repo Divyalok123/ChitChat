@@ -8,6 +8,7 @@
 
 body a {
     text-decoration: none;
+    color: black;
 }
 
 /* Usable classes */
@@ -18,8 +19,12 @@ body a {
     outline: none;
     border: 1px solid black;
     border-radius: 5px;
-    padding: 2px 5px;
-    font-size: 14px;
+    padding: 3px 8px;
+    font-size: 13px;
+}
+
+.link-button:hover {
+    background-color: gainsboro;
 }
 
 .font-roboto {

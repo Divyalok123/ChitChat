@@ -15,7 +15,6 @@
 }
 
 .sign-in-div {
-    background-color:rgb(244, 143, 96);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,13 +27,11 @@
 .sign-in-box {
     position: absolute;
     width: 400px;
-    border: 2px solid black;
-    box-shadow: 0px 0px 5px 1.5px grey;
-}
-
-.sign-in-box input {
-    width: 150px;
-    float: right;
+    background-color:rgb(248, 172, 172);
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 2px 1px grey;
 }
 
 .sign-in-form {
@@ -51,6 +48,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
 }
 
 .form-header {
@@ -66,7 +64,8 @@
     font-size: 15px;
     padding: 5px 10px;
     border-radius: 10px;
-    border: none;
+    border: 1px solid black;
+    outline: none;
 }
 
 .form-field-button {
@@ -82,8 +81,8 @@
 }
 
 .form-field-button button:hover {
-    transition: 300ms;
+    transition: 250ms;
     cursor: pointer;
-    background-color:rgb(244, 143, 96);
+    background-color:rgb(138, 54, 15);
     color: white;
 }
