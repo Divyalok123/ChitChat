@@ -18,9 +18,7 @@ router.get('/signin', (req, res) => {
     });
 });
 
-router.post('/home', (req, res) => {
-    res.send('Done');
-});
-
+router.post('/home', userController.login);
 router.post('/createuser', userController.createUser);
+
 module.exports = router;

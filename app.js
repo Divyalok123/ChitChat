@@ -9,6 +9,7 @@ const session = require('express-session');
 const middlewares = require('./config/middlewares');
 const favicon = require('serve-favicon');
 const path = require('path');
+const MongoStore = require('connect-mongo');
 
 //static files
 app.use(express.static(__dirname + '/assets'));
@@ -21,10 +22,13 @@ app.use(session({
     name: 'Registration',
     secret: '%GnMIW95zfPXjzyDGyHB',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-        maxAge: 100000 //the expiry time of the cookie
-    }
+        maxAge: 10000 //the expiry time of the cookie
+    },
+    store: MongoStore.create({ // mongostore for storing sessions in database
+        mongoUrl: 'mongodb://localhost:27017/practice_db_1'
+    }, (err) => console.log('Error in mongoStore: ', err))
 
 }));
 
