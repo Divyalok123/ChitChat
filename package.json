@@ -1,7 +1,7 @@
 {
-  "name": "registration",
+  "name": "Chit-chat",
   "version": "1.0.0",
-  "description": "Simple pratice",
+  "description": "Simple pratice app",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",

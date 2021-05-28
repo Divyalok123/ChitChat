@@ -3,11 +3,6 @@ const bcrypt = require('bcrypt');
 
 module.exports.createUser = (req, res) => {
     let vals = req.body;
-    console.log(vals);
-
-    if(vals.email.match(/.+\@.+\..+/)) {
-        console.log("wohooo");
-    }
 
     if(vals.password != vals.confirm_pass) {
         req.flash('error', 'Password don\'t match. Please try again.');
@@ -42,9 +37,7 @@ module.exports.createUser = (req, res) => {
                         return res.redirect('back');
                     }
 
-                    // console.log('hash: ', hash);
                     vals.password = hash;
-                    // console.log(vals);
 
                     User.create(vals, (error) => {
                         if(error) {
@@ -66,5 +59,5 @@ module.exports.createUser = (req, res) => {
 
 module.exports.login = (req, res) => {
     req.flash('success', 'Logged In');
-    return res.render('home');
+    return res.redirect('/user');
 }

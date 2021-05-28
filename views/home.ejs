@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="/css/home.css" type="text/css">
 
+<% if(locals.user) { %>
+    <h1>Hey! What's up <%= locals.user.name %></h1>
+<% } else { %>
 <div class="home-header font-koho has-text-weight-bold">
     <h1>Welcome!</h1>
 </div>
 <br>
-
 
 <div class="home-content font-notosans">
     <div class="home-content-box animate__animated animate__bounceInDown animate__fast">
@@ -16,4 +18,5 @@
             </a>
         </p>
     </div>
-</div>
+</div>    
+<% } %>

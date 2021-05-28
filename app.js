@@ -10,6 +10,8 @@ const middlewares = require('./config/middlewares');
 const favicon = require('serve-favicon');
 const path = require('path');
 const MongoStore = require('connect-mongo');
+const passport = require('passport');
+const passportLocal = require('./config/passport_local');
 
 //static files
 app.use(express.static(__dirname + '/assets'));
@@ -24,7 +26,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 10000 //the expiry time of the cookie
+        secure: false,
+        maxAge: 60000 //the expiry time of the cookie
     },
     store: MongoStore.create({ // mongostore for storing sessions in database
         mongoUrl: 'mongodb://localhost:27017/practice_db_1'
@@ -32,7 +35,7 @@ app.use(session({
 
 }));
 
-//to extract scripts && styles && view engine
+//to extract scripts, styles && view engine
 app.use(expressLayouts); 
 app.set('view engine', 'ejs');
 app.set('layout extractScripts', true);
@@ -46,6 +49,11 @@ app.use(express.urlencoded({extended: false}));
 // flash
 app.use(flash());
 app.use(middlewares.flashMiddleWare);
+
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(passport.setUserIfAuthenticated);
 
 app.use('/', require('./routes/index'));
 app.listen(port, (err) => {
