@@ -18,7 +18,7 @@ passport.use(
 						done(null, false);
 					}
 
-                    console.log('in passport: ', user);
+                    // console.log('in passport: ', user);
 
 					//check password
                     bcrypt.compare(password, user.password, (err, same) => {

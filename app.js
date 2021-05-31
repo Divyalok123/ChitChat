@@ -15,19 +15,20 @@ const passportLocal = require('./config/passport_local');
 
 //static files
 app.use(express.static(__dirname + '/assets'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 // serving the favicon
-app.use(favicon(path.join(__dirname,'assets', 'img', 'favicon.ico')));
+app.use(favicon(path.join(__dirname,'assets', 'img', 'logoimg.png')));
 
 // express-session
 app.use(session({
-    name: 'Registration',
+    name: 'ChitChat',
     secret: '%GnMIW95zfPXjzyDGyHB',
     resave: false,
     saveUninitialized: false,
     cookie: {
         secure: false,
-        maxAge: 60000 //the expiry time of the cookie
+        maxAge: 100*60*60*24 //the expiry time of the cookie
     },
     store: MongoStore.create({ // mongostore for storing sessions in database
         mongoUrl: 'mongodb://localhost:27017/practice_db_1'
@@ -41,7 +42,6 @@ app.set('view engine', 'ejs');
 app.set('layout extractScripts', true);
 app.set('layout extractStyles', true);
 app.set('layout', 'homelayout');
-app.set('layout signin', false);
 
 //body-parser
 app.use(express.urlencoded({extended: false}));

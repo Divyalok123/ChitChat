@@ -5,31 +5,27 @@ const passport = require('passport');
 const passportLocal = require('../config/passport_local');
 
 router.get('/', (req, res) => {
-    res.render('home');
+    res.render('home', {
+        title: 'ChitChat'
+    });
 });
 
 router.get('/signup', (req, res) => {
     res.render('signup', {
-        layout: 'signinlayout'
+        title: 'SignUp | ChitChat'
     });
 });
 
 router.get('/signin', (req, res) => {
     res.render('signin', {
-        layout: 'signinlayout'
+        title: 'Sign In | ChitChat'
     });
 });
 
-router.get('/user', passport.checkIfAuthenticated, function(req, res){
-    res.render('userhome');
-})
-
+router.get('/profile/:id', passport.checkIfAuthenticated, userController.profile);
+router.post('/update/:id', passport.checkIfAuthenticated, userController.update);
 router.post('/login', passport.authenticate('local', {failureRedirect: '/signin'}), userController.login)
-router.get('/logout', function(req, res) {
-    req.logOut();
-    req.flash('success', 'Logged out successfully');
-    return res.redirect('/')
-});
+router.get('/logout', userController.logout); 
 router.post('/createuser', userController.createUser);
 
 module.exports = router;

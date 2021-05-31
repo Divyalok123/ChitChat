@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=KoHo&family=Montserrat&family=Newsreader&family=Noto+Sans+JP&family=Raleway&family=Source+Sans+Pro&display=swap');
 
-* {
+body {
     margin: 0;
     padding: 0;
 }
