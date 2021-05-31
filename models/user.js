@@ -21,6 +21,10 @@ const userSchema = new Schema({
         required: true
     },
     avatar: {
+        type: String,
+        unique: true
+    },
+    desc: {
         type: String
     }
 }, { timestamps: true});

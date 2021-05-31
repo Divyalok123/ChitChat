@@ -28,11 +28,11 @@ module.exports.update = async (req, res) => {
                         console.log('Multer Error: ', err);
                     else
                         req.flash('error', err);
-                    res.redirect('back');
+                    return res.redirect('back');
                 } else {
-                    if(req.file == undefined) {
+                    if(typeof req.file == 'undefined') {
                         req.flash('error', 'Empty File!');
-                        res.redirect('back');
+                        return res.redirect('back');
                     } 
                     
                     //delete the previous file
@@ -48,18 +48,24 @@ module.exports.update = async (req, res) => {
                         }
                     }
 
+                    // console.log('req.body: ', req.body);
+                    if(req.body.description) {
+                        user.desc = req.body.description;
+                    }
+
+                    // console.log('req.file: ', req.file);
                     user.avatar = User.avatarPath + '/' + req.file.filename;
                     user.save();
 
                     // console.log('user: ', user);
                     req.flash('success', 'Profile Updated!');
-                    res.redirect('back');          
+                    return res.redirect('back');          
                 }
             })
         } catch(err) {
             console.log('Catched err in update controller: ', err);
             req.flash('error', 'Some error occured. Please try again.');
-            res.redirect('back');
+            return res.redirect('back');
         }
     } else {
         console.log('Users are not same');

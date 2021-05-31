@@ -1,24 +1,9 @@
-<style>
-  .profile.page {
-    width: 100%;
-    height: 90vh;
-    padding: 10px;
-    position: relative;
-  }
+<link rel="stylesheet" href="/css/user_profile.css" type="text/css">
 
-  .profile-box {
-    width: 30%;
-    position: absolute;
-    left: 10%;
-    top: 10%;
-  }
-</style>
-
-<div class="profile-page">
-  <div class="profile-box">
-    <div class="card" style="width: 18rem;">
+<div class="profile-grid">
+  <div class="profile-image-item">
+    <div class="card profile-img-card" style="width: 18rem;">
       <% if(user.avatar != undefined) { %>
-        <% console.log(user.avatar) %>
         <img class="card-img-top" src="<%= user.avatar %>" alt="Profile Pic">
       <% } else { %>
         <img class="card-img-top" src="/img/logoimg.png" alt="Profile Pic">
@@ -38,15 +23,32 @@
           </p>
       </div>
     </div>
-    <br>
-
+  </div>
+  <div class="profile-desc-item">
+    <h3>Description</h3>
+    <p>
+      <% if(locals.user.desc)  { %>
+        <%= locals.user.desc %>
+      <%} else { %>
+        Please add a description...
+      <% } %>
+      
+    </p>
+  </div>
+  <div class="profile-update-item">
     <% if(profile_user.id === locals.user.id) { %>
       <form action="/update/<%= locals.user.id %>" method="POST" enctype="multipart/form-data">
-        <div class="input-group mb-3">
-          <input type="file" class="form-control" name="avatar" id="inputGroupFile02">
+        <div class="form-group mb-3">
+          <label for="profile-image" class="mb-2">New profile image</label>
+          <input type="file" class="form-control" name="avatar" id="profile-image">
+        </div>
+        <div class="form-group mb-3">
+          <label for="profile-description" class="mb-2">New Description</label>
+          <textarea class="form-control" id="profile-description" rows="3" name="description"></textarea>
         </div>
         <button class="btn btn-secondary btn-sm" type="submit">Upload</button>
       </form>
     <% } %>
   </div>
 </div>
+

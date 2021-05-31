@@ -11,6 +11,16 @@ body a {
     color: black;
 }
 
+.main-content {
+    padding: 20px 10px 20px 10px;
+}
+
+@media screen and (max-width: 800px) {
+    .main-content {
+        padding: 10px 10px 40px 10px;
+    }
+}
+
 /* Usable classes */
 
 .link-button {
