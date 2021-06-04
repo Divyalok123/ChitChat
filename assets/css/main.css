@@ -4,6 +4,16 @@
 body {
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
+}
+
+body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 body a {
@@ -12,12 +22,13 @@ body a {
 }
 
 .main-content {
-    padding: 20px 10px 20px 10px;
+    padding: 10px 10px 0px 10px;
+    scrollbar-width: none;
 }
 
 @media screen and (max-width: 800px) {
     .main-content {
-        padding: 10px 10px 40px 10px;
+        padding: 10px 10px 50px 10px;
     }
 }
 

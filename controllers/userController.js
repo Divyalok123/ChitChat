@@ -30,22 +30,28 @@ module.exports.update = async (req, res) => {
                         req.flash('error', err);
                     return res.redirect('back');
                 } else {
-                    if(typeof req.file == 'undefined') {
+                    if(typeof req.file == 'undefined' && typeof req.body.description == 'undefined') {
                         req.flash('error', 'Empty File!');
                         return res.redirect('back');
                     } 
+
+                    if(req.file) {
                     
-                    //delete the previous file
-                    if(user.avatar) {
-                        let prevavatarpath = path.join(__dirname, '..', user.avatar);
-                        
-                        if(fs.existsSync(prevavatarpath)) { // check if the path exists
-                            fs.unlink(prevavatarpath, (err) => {
-                                    if(err) throw err;
-                                    console.log('Deleted previous file');
-                                }
-                            )
+                        //delete the previous file
+                        if(user.avatar) {
+                            let prevavatarpath = path.join(__dirname, '..', user.avatar);
+                            
+                            if(fs.existsSync(prevavatarpath)) { // check if the path exists
+                                fs.unlink(prevavatarpath, (err) => {
+                                        if(err) throw err;
+                                        console.log('Deleted previous file');
+                                    }
+                                )
+                            }
                         }
+
+                        // console.log('req.file: ', req.file);
+                        user.avatar = User.avatarPath + '/' + req.file.filename;
                     }
 
                     // console.log('req.body: ', req.body);
@@ -53,8 +59,7 @@ module.exports.update = async (req, res) => {
                         user.desc = req.body.description;
                     }
 
-                    // console.log('req.file: ', req.file);
-                    user.avatar = User.avatarPath + '/' + req.file.filename;
+                    
                     user.save();
 
                     // console.log('user: ', user);

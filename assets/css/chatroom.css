@@ -1,0 +1,136 @@
+.chatroom {
+    width: 100%;
+    height: 100%;
+}
+
+.chatbox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 80vh;
+}
+
+.chatbox-item {
+    width: 50%;
+    height: 100%;
+    transition: 100ms;
+    border: 1px solid #000;
+    position: relative;
+}
+
+#chatbox-sidebar {
+    position: absolute;
+    height: 100%;
+    width: 0px;
+    background-color:rgb(74, 79, 83);
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    transition: 250ms; 
+}
+
+#chatbox-sidebar > div {
+    padding: 4px 4px 4px 10px;
+    color:white;
+    transition: 150ms;
+    cursor: pointer;
+}
+
+#chatbox-sidebar > div > p {
+    margin-left: 15px;
+}
+
+#chatbox-sidebar > div > * {
+    padding: 5px;
+}
+
+#chatbox-sidebar > div > *:hover {
+    background: rgba(236, 230, 230, 10%);
+}
+
+.chatbox-users {
+    overflow: auto;
+}
+
+.chatbox-content {
+    transition: 250ms;
+    margin-left: 0px;
+}
+
+.chatbox-header {
+    position: relative;
+    text-align: center;
+    background-color: rgb(74, 79, 83);
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.chatbox-header-text {
+    margin: auto;
+}
+
+#chatbox-hamburger {
+    position: absolute;
+    left: 1%;
+    cursor: pointer;
+}
+
+#chatbox-hamburger > div {
+    width: 35px;
+    border: 2px solid white;
+    border-radius: 4px;
+    margin: 5px 0;
+    transition: 450ms;
+}
+
+#chatbox-hamburger > div:nth-child(2) {
+    transition: 550ms;
+}
+
+.transform-burgeritem {
+    transform: scale(0.95);
+}
+
+.transform-burgeritem > div:nth-child(2){
+    transform: translateX(-50px);
+    visibility: hidden;
+}
+
+.transform-burgeritem > div:nth-child(1) {
+    transform: rotate(45deg) translate(5.5px, 5.5px);
+}
+
+
+.transform-burgeritem > div:nth-child(3) {
+    transform: rotate(-45deg) translate(5.5px, -5.5px);
+}
+
+@media screen and (max-width: 1300px) {
+    .chatbox-item {
+        width: 65%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .chatbox-item {
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .chatbox-item {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .chatbox-item {
+        width: 95%;
+    }
+}

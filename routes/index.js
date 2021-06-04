@@ -27,5 +27,10 @@ router.post('/update/:id', passport.checkIfAuthenticated, userController.update)
 router.post('/login', passport.authenticate('local', {failureRedirect: '/signin'}), userController.login)
 router.get('/logout', userController.logout); 
 router.post('/createuser', userController.createUser);
+router.get('/chatroom', passport.checkIfAuthenticated, (req, res) => {
+    res.render('chatroom', {
+        title: 'Chatroom | Chitchat'
+    });
+})
 
 module.exports = router;
