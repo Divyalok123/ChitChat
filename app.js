@@ -12,6 +12,9 @@ const path = require('path');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const passportLocal = require('./config/passport_local');
+const http = require('http');
+const server = http.createServer(app);
+require('./config/serverSockets')(server);
 
 //static files
 app.use(express.static(__dirname + '/assets'));
@@ -28,7 +31,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: false,
-        maxAge: 100*60*60*24 //the expiry time of the cookie
+        maxAge: 1000*60*60*24 //the expiry time of the cookie
     },
     store: MongoStore.create({ // mongostore for storing sessions in database
         mongoUrl: 'mongodb://localhost:27017/practice_db_1'
@@ -45,6 +48,7 @@ app.set('layout', 'homelayout');
 
 //body-parser
 app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
 // flash
 app.use(flash());
@@ -56,7 +60,7 @@ app.use(passport.session());
 app.use(passport.setUserIfAuthenticated);
 
 app.use('/', require('./routes/index'));
-app.listen(port, (err) => {
+server.listen(port, (err) => {
     if(err)
         console.log(`Error encountered: ${err}`);
     else

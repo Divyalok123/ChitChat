@@ -36,8 +36,8 @@
     </p>
   </div>
   <div class="profile-update-item">
-    <% if(profile_user.id === locals.user.id) { %>
-      <form action="/update/<%= locals.user.id %>" method="POST" enctype="multipart/form-data">
+    <% if(toString(profile_user._id) === toString(locals.user._id)) { %>
+      <form action="/update/<%= locals.user._id %>" method="POST" enctype="multipart/form-data">
         <div class="form-group mb-3">
           <label for="profile-image" class="mb-2">New profile image</label>
           <input type="file" class="form-control" name="avatar" id="profile-image">

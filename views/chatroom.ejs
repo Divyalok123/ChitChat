@@ -3,21 +3,17 @@
 <div class="chatroom">
     <div class="chatbox">
         <div class="chatbox-item">
-            <div id="chatbox-sidebar">
-                <div class="space"></div>
-                <div class="chatbox-rooms">
-                    <h4>Rooms</h4>
+            <div class="chatbox-sidebar">
+                <h4 class="sidebar-header">Rooms</h4>
+                <div class="chatbox-rooms sidebar-items">
                     <p>Room1</p>
                     <p>Room2</p>
                 </div>
-                <div class="chatbox-users">
-                    <h4>Users</h4>
-                    <p>Divyalok Jaiswal</p>
-                    <p>Divyalok Jaiswal</p>
-                    <p>Divyalok Jaiswal</p>
-                    <p>Divyalok Jaiswal</p>
-                    <p>Divyalok Jaiswal</p>
-                    <p>Divyalok Jaiswal</p>
+                <h4 class="sidebar-header">Users</h4>
+                <div class="chatbox-users sidebar-items">
+                    <% for(let i = 0; i < users.length; i++) { %>
+                        <p class="chatbox-user-button" id="<%= users[i].id %>"><%= users[i].name %></p>
+                    <% } %>
                 </div>
             </div>
             <div class="chatbox-content">
@@ -32,15 +28,27 @@
                     </p>
                 </div>
                 <div class="message-box">
-
+                    <ul class="chatbox-messages font-raleway">
+                        <li class="sender-message chat-message">
+                            <span class="message-content">Sender guy</span>
+                            <span class="message-time">12:13</span>
+                        </li>
+                        <li class="own-message chat-message">
+                            <span class="message-content">Receiver</span>
+                            <span class="message-time">10:12</span>
+                        </li>
+                    </ul>
                 </div>
-                <div class="message-input-box">
-
-                </div>
+                <form action="#" id="input-form" class="message-input-box">
+                    <input type="text" id="message-input">
+                    <button id="message-send" type="submit">Send</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-<script src="/socket.io/socket.io.js"></script>
 <script src="/js/chatroom.js" type="text/javascript"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/clientSockets.js"></script>
+

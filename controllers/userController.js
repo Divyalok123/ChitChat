@@ -31,7 +31,7 @@ module.exports.update = async (req, res) => {
                     return res.redirect('back');
                 } else {
                     if(typeof req.file == 'undefined' && typeof req.body.description == 'undefined') {
-                        req.flash('error', 'Empty File!');
+                        req.flash('error', 'No description or file provided!');
                         return res.redirect('back');
                     } 
 

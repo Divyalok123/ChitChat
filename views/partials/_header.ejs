@@ -19,7 +19,7 @@
         <% if(locals.user) { %>
           <div class="navbar-nav my-0 my-md-0">
             <button type="button" class="btn btn-danger nav-item navbar-button">
-              <a href="/chatroom" style="color: white">Join a room</a>
+              <a href="/chatroom/<%= locals.user.id %>" style="color: white">Join a room</a>
             </button>
           </div>
         <% } %> 

@@ -69,8 +69,9 @@ passport.checkIfAuthenticated = (req, res, next) => {
 passport.setUserIfAuthenticated = (req, res, next) => {
     // console.log("in setuesrifauthenticated middleware");
     if(req.isAuthenticated()) {
-        // console.log('from setuserifauthenticated: ', req.user);
+        // console.log('in passport setuserifauthenticated, req.user: ', req.user);
         res.locals.user = req.user;
+        // console.log('in passport setuserifauthenticated, res.user: ', res.locals.user);
     }
 
     next();
