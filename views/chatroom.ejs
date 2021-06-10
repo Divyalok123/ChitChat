@@ -4,15 +4,17 @@
     <div class="chatbox">
         <div class="chatbox-item">
             <div class="chatbox-sidebar">
-                <h4 class="sidebar-header">Rooms</h4>
+                <!-- <h4 class="sidebar-header">Rooms</h4>
                 <div class="chatbox-rooms sidebar-items">
-                    <p>Room1</p>
-                    <p>Room2</p>
-                </div>
+                    <p class="chatbox-sidebar-button">Room1</p>
+                    <p class="chatbox-sidebar-button">Room2</p>
+                </div> -->
                 <h4 class="sidebar-header">Users</h4>
                 <div class="chatbox-users sidebar-items">
                     <% for(let i = 0; i < users.length; i++) { %>
-                        <p class="chatbox-user-button" id="<%= users[i].id %>"><%= users[i].name %></p>
+                        <% if(users[i].id != locals.user.id) { %>
+                            <p class="chatbox-sidebar-button" id="<%= users[i].id %>"><%= users[i].username %></p>
+                        <% } %>
                     <% } %>
                 </div>
             </div>

@@ -1,30 +1,27 @@
-<style>
-  .navbar-button {
-    margin: 3px;
-  }
-
-  .navbar {
-    z-index: 10;
-  }
-
-</style>
+<link rel="stylesheet" href="/css/header.css" type="text/css">
 
 <nav class="navbar navbar-expand-md navbar-light bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand display-4" href="/" style="color: white;">ChitChat &nbsp;</a>
-    <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon bg-light"></span>
+    <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target=".navHeaderCollapse" aria-controls="navHeaderCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse ml-auto navbar-nav" id="navbarScroll">
+    <div class="collapse navbar-collapse m-auto navbar-nav navHeaderCollapse" id="navHeaderCollapse">
         <% if(locals.user) { %>
-          <div class="navbar-nav my-0 my-md-0">
-            <button type="button" class="btn btn-danger nav-item navbar-button">
-              <a href="/chatroom/<%= locals.user.id %>" style="color: white">Join a room</a>
+          <div class="navbar-nav my-auto messenger-div">
+            <button type="button" class="btn btn-danger nav-item navbar-button messenger-button">
+              <a href="/chatroom/<%= locals.user.id %>" style="color: white">Messenger</a>
             </button>
           </div>
         <% } %> 
+        
+        <form action="/search" class="m-auto navbar-nav search-box-div" method="GET">
+          <input type="text" class="form-control search-box-input shadow-none form-group" name="searcheduser" placeholder="Search user" aria-label="Search user" aria-describedby="search-box-icon">
+          <button type="submit" class="input-group-text search-box-icon" id="search-box-icon"><i class="fas fa-search"></i></button>
+        </form>
+        
 
-        <div class="navbar-nav me-auto my-1 my-md-0 navbar-nav-scroll"></div>
+        <div class="navbar-nav me-auto my-1 my-md-0 navbar-right-buttons"></div>
           <% if(locals.user) { %>
             <button type="button" class="btn btn-info nav-item navbar-button">
               <a href="/profile/<%= locals.user.id %>">Profile</a>

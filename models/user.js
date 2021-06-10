@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const multer = require('multer');
 const path = require('path');
-
+const mongoose_fuzzy_searching = require('mongoose-fuzzy-searching');
 const AVATAR_PATH = '/uploads/avatars';
 
 const userSchema = new Schema({
-    name: {
+    username: {
         type: String,
         required: true
     },
@@ -29,6 +29,7 @@ const userSchema = new Schema({
     }
 }, { timestamps: true});
 
+// multer
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, path.join(__dirname, '..', AVATAR_PATH));
@@ -56,6 +57,9 @@ userSchema.statics.multerUpload = multer({
 }).single('avatar');
 
 userSchema.statics.avatarPath = AVATAR_PATH;
+
+//fuzzy searching
+userSchema.plugin(mongoose_fuzzy_searching, { fields: ['username']});
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

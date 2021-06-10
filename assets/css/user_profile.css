@@ -1,13 +1,12 @@
 .card {
     overflow: hidden;
-    max-height: 80%;
+    height: 295px;
     margin: 0;
 }
 
-
 .card-img-top {
     object-fit: cover;
-    max-height: 50%;
+    height: 230px;
 }
 
 .card-body {

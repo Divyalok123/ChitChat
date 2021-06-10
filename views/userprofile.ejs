@@ -3,32 +3,29 @@
 <div class="profile-grid">
   <div class="profile-image-item">
     <div class="card profile-img-card" style="width: 18rem;">
-      <% if(user.avatar != undefined) { %>
-        <img class="card-img-top" src="<%= user.avatar %>" alt="Profile Pic">
+      <% if(profile_user && profile_user.avatar != undefined) { %>
+        <img class="card-img-top" src="<%= profile_user.avatar %>" alt="Profile Pic">
       <% } else { %>
         <img class="card-img-top" src="/img/logoimg.png" alt="Profile Pic">
       <% } %>
       <div class="card-body">
-        <% if(locals.user) { %>
+        <% if(profile_user) { %>
           <h5 class="card-title">
-            <%= user.name %>
+            <%= profile_user.username %>
           </h5>
         <% } else { %>
           <h5 class="card-title">
             What the hell happened!
           </h5>
         <% } %>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p>
       </div>
     </div>
   </div>
   <div class="profile-desc-item">
     <h3>Description</h3>
     <p>
-      <% if(locals.user.desc)  { %>
-        <%= locals.user.desc %>
+      <% if(profile_user)  { %>
+        <%= profile_user.desc %>
       <%} else { %>
         Please add a description...
       <% } %>
@@ -36,7 +33,7 @@
     </p>
   </div>
   <div class="profile-update-item">
-    <% if(toString(profile_user._id) === toString(locals.user._id)) { %>
+    <% if(profile_user.id === locals.user.id) { %>
       <form action="/update/<%= locals.user._id %>" method="POST" enctype="multipart/form-data">
         <div class="form-group mb-3">
           <label for="profile-image" class="mb-2">New profile image</label>

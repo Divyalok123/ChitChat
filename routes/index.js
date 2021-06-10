@@ -4,6 +4,7 @@ const userController = require('../controllers/userController');
 const passport = require('passport');
 const passportLocal = require('../config/passport_local');
 const User = require('../models/user');
+const mongoose_fuzzy_searching = require('mongoose-fuzzy-searching');
 
 router.get('/', (req, res) => {
     res.render('home', {
@@ -43,5 +44,16 @@ router.get('/userdetails', async (req, res) => {
     let thisuser = await User.findOne({_id: req.query.userid});
     res.status(200).json(thisuser);
 })
+
+// user search
+router.get('/search', async (req, res) => {
+    let foundusers = await User.fuzzySearch(req.query.searcheduser, {username: {$ne: req.user.username}});
+    return res.render('foundusers', {
+        userscount: foundusers.length,
+        foundusers: foundusers,
+        title: "Users"
+    });
+})
+
 
 module.exports = router;

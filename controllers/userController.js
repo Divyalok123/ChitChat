@@ -5,14 +5,14 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports.profile = (req, res) => {
-    User.findById(req.params.id, (err, user) => {
+    User.findById(req.params.id, (err, thisuser) => {
         if(err) {
             console.log('Error in profile controller: ', err);
             return;
         }
 
         res.render('userprofile', {
-            profile_user: user,
+            profile_user: thisuser,
             title: 'Profile | ChitChat'
         });
     })

@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="/css/founduserpage.css" type="text/css">
+
+<div class="founduser-div">
+    <div class="found-user-box">
+    <% if(userscount == 0) { %> 
+        <h4>No such user found!</h4>
+    <% } else { %>
+        <% foundusers.forEach((thisuser) => { %>
+            <div class="found-user font-koho">
+                <div class="found-user-img">
+                    <img src="<%= thisuser.avatar %>" alt="User Image">
+                    &nbsp; &nbsp;
+                    <% console.log(thisuser.id) %>
+                    <span class="found-user-name"><a href="/profile/<%= thisuser.id %>"><%= thisuser.username %></a></span>
+                </div>
+                <div class="request-buttons">
+                    <span class="request-button-icon">
+                        <span class="request-button-text">Send Request</span>
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="request-button-icon">
+                        <span class="request-button-text">Withdraw</span>
+                        <i class="fas fa-minus"></i>
+                    </span>
+                </div>
+            </div>
+        <% }) %>
+    <% } %>
+    </div>
+</div>
