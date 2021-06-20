@@ -16,10 +16,11 @@ function friendNotFound(controller, res) {
     })
 }
 
-function successMessage(message, res) {
+function successMessage(message, res, data) {
     return res.status(200).json({
         type: 'success',
-        text: message
+        text: message,
+        data: data
     });
 }
 
@@ -50,6 +51,14 @@ module.exports.addfriend = async (req, res) => {
             });
         }
 
+        if(thisuser.friendsList.find(friend => friend.userid == friendid)) {
+            console.log('User is already a friend')
+            return res.status(200).json({
+                type: 'error',
+                text: 'User is already a friend'
+            })
+        }
+
         await thisuser.sentRequests.push({userid: friendid});
         await friend.pendingRequests.push({userid: req.user.id});
         await thisuser.save();
@@ -57,7 +66,7 @@ module.exports.addfriend = async (req, res) => {
 
         // console.log('thisuser (/addfriend): ', thisuser);
         // console.log('friend (/addfriend): ', friend);
-        successMessage('Friend request sent!', res);
+        successMessage('Friend request sent!', res, friend);
     } catch(err) {
         catchedError("addFriend", err, res);
     }
@@ -85,7 +94,7 @@ module.exports.withdrawRequest = async (req, res) => {
             
             // console.log('thisuser (/withdrawrequest): ', thisuser);
             // console.log('friend (/withdrawrequest): ', friend);
-            successMessage('Friend request withdrawn', res);
+            successMessage('Friend request withdrawn', res, friend);
         } else {
             failureMessage('No request sent to user', res);
         }
@@ -114,7 +123,7 @@ module.exports.removeFriend = async (req, res) => {
             await thisuser.save();
             await friend.save();
 
-            successMessage('User successfully unfriended', res);
+            successMessage('User successfully unfriended', res, friend);
         } else {
             failureMessage('User not found in your friend list', res);
         }
@@ -157,7 +166,7 @@ module.exports.acceptRequest = async (req, res) => {
         await friend.save();
         await thisuser.save();
 
-        successMessage('User successfully unfriended', res);
+        successMessage('User added to friends', res, friend);
     } catch(err) {
         catchedError("acceptRequest", err, res);
     }
@@ -194,7 +203,7 @@ module.exports.declineRequest = async (req, res) => {
         await friend.save();
         await thisuser.save();
 
-        successMessage('User successfully unfriended', res);
+        successMessage('Friend request declined', res, friend);
     } catch(err) {
         catchedError("declineRequest", err, res);
     }

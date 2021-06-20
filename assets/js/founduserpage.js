@@ -3,54 +3,82 @@ var withdrawRequestButtons = document.querySelectorAll('.withdraw-request-button
 var removeFriendButtons = document.querySelectorAll('.remove-friend-button');
 var acceptFriendButtons = document.querySelectorAll('.accept-friend-button');
 var declineFriendButtons = document.querySelectorAll('.decline-friend-button');
+var acceptedFriendsList = document.querySelectorAll('.accepted-friends-list');
 
-let friendItemDiv = (data, id) => 
-    `
-    <div class="found-user font-koho in-friends-list" id="friend-<%= ind %>">
-        <div class="found-user-img">
-            <img src="<%= friend.userid.avatar %>" alt="User Image"> &nbsp; &nbsp;
-            <span class="found-user-name"><a href="/profile/<%= friend.userid.id %>"><%= friend.userid.username %></a></span>
-        </div>
-        <div class="request-buttons">
-            <span class="request-button-icon remove-friend-button" data-thisusersid="<%= friend.userid.id %>">
-                Remove Friend
-            </span>
-        </div>
-    </div>
-    `
+var friendItemDiv = async (userdata, id) => {
+    let newdiv = document.createElement('div');
+    newdiv.setAttribute("id", `friend-${userdata.data.id}`);
+    newdiv.setAttribute("class", "found-user font-koho in-friends-list");
 
-let sentRequestItemDiv = (data, id) => 
-    `
-    <div class="found-user font-koho in-friends-list" id="sentRequest-<%= ind %>">
+    newdiv.innerHTML += (
+        `
         <div class="found-user-img">
-            <img src="<%= request.userid.avatar %>" alt="User Image"> &nbsp; &nbsp;
-            <span class="found-user-name"><a href="/profile/<%= request.userid.id %>"><%= request.userid.username %></a></span>
+            <img src="${userdata.data.avatar}" alt="User Image"> &nbsp; &nbsp;
+            <span class="found-user-name"><a href="/profile/${userdata.data.id}">${userdata.data.username}</a></span>
         </div>
-        <div class="request-buttons">
-            <span class="request-button-icon withdraw-request-button" data-thisusersid="<%= request.userid.id %>">
-                Withdraw
-            </span>
-        </div>
-    </div>
-    `
+        `
+    );
 
-let pendingRequestItemDiv = (data, id) => 
-    `
-    <div class="found-user font-koho in-friends-list" id="pendingRequest-<%= ind %>">
-        <div class="found-user-img">
-            <img src="<%= request.userid.avatar %>" alt="User Image"> &nbsp; &nbsp;
-            <span class="found-user-name"><a href="/profile/<%= request.userid.id %>"><%= request.userid.username %></a></span>
-        </div>
-        <div class="request-buttons">
-            <span class="request-button-icon remove-friend-button" data-thisusersid="<%= request.userid.id %>">
-                Accept
-            </span>
-            <span class="request-button-icon remove-friend-button" data-thisusersid="<%= request.userid.id %>">
-                Decline
-            </span>
-        </div>
-    </div>
-    `
+    let innerdiv = document.createElement('div');
+    innerdiv.setAttribute('class', "request-buttons");
+    
+    let span = document.createElement('span');
+    span.setAttribute('class', "request-button-icon remove-friend-button");
+    span.setAttribute('data-thisusersid', `${userdata.data._id}`);
+    span.innerHTML = "Remove Friend";
+
+    // console.log('span: ', span);
+    span.addEventListener('click', handleRemoveFriend);
+    innerdiv.appendChild(span);
+    newdiv.appendChild(innerdiv);
+
+    return newdiv;
+};
+
+var addFriendButtonDiv = (userdata) => {
+    let span = document.createElement('span');
+    span.setAttribute('class', "request-button-icon add-friend-button");
+    span.setAttribute('data-thisusersid', `${userdata.data._id}`)
+    span.innerHTML += "Add Friend";
+    span.addEventListener('click', handleAddFriend);
+    return span;
+};
+
+var removeFriendButtonDiv = (userdata) => {
+    let span = document.createElement('span');
+    span.setAttribute('class', "request-button-icon remove-friend-button");
+    span.setAttribute('data-thisusersid', `${userdata.data._id}`)
+    span.innerHTML += "Remove Friend";
+    span.addEventListener('click', handleRemoveFriend);
+    return span;
+};
+
+var withdrawRequestButtonDiv = (userdata) => {
+    let span = document.createElement('span');
+    span.setAttribute('class', "request-button-icon withdraw-request-button");
+    span.setAttribute('data-thisusersid', `${userdata.data._id}`)
+    span.innerHTML += "Withdraw";
+    span.addEventListener('click', handleWithdrawRequest);
+    return span;
+};
+
+var acceptRequestButtonDiv = (userdata) => {
+    let span = document.createElement('span');
+    span.setAttribute('class', "request-button-icon accept-friend-button");
+    span.setAttribute('data-thisusersid', `${userdata.data._id}`)
+    span.innerHTML += "Accept";
+    span.addEventListener('click', handleAcceptRequest);
+    return span;
+};
+
+var declineRequestButtonDiv = (userdata) => {
+    let span = document.createElement('span');
+    span.setAttribute('class', "request-button-icon decline-friend-button");
+    span.setAttribute('data-thisusersid', `${userdata.data._id}`)
+    span.innerHTML += "Decline";
+    span.addEventListener('click', handleDeclineRequest);
+    return span;
+};
 
 function notycallerror(data) {
     new Noty({
@@ -76,12 +104,19 @@ function handleAddFriend() {
     axios.post('/addfriend', {
         userid: this.dataset.thisusersid
     })
-    .then(data => {
+    .then(async (data) => {
         // console.log(data);
         if(data.data.type == 'error') {
             notycallerror(data.data.text);
         } else {
             notycallsuccess(data.data.text);
+            
+            let newButton = await withdrawRequestButtonDiv(data.data);
+            let parentNode = this.parentNode;
+            while(parentNode.firstChild)
+                parentNode.removeChild(parentNode.lastChild);
+
+            parentNode.prepend(newButton);
         }
         return;
     })
@@ -97,11 +132,22 @@ function handleRemoveFriend() {
             userid: this.dataset.thisusersid
         }
     })
-    .then(data => {
+    .then(async (data) => {
         if(data.data.type == 'error') {
             notycallerror(data.data.text);
         } else {
             notycallsuccess(data.data.text);
+
+            if(this.parentNode.parentNode.id) {
+                this.parentNode.parentNode.remove();
+            } else {
+                let newButton = await addFriendButtonDiv(data.data);
+                let parentNode = this.parentNode;
+                while(parentNode.firstChild)
+                    parentNode.removeChild(parentNode.lastChild);
+
+                parentNode.prepend(newButton);
+            }
         }
         return;
     })
@@ -117,7 +163,7 @@ function handleWithdrawRequest() {
             userid: this.dataset.thisusersid
         }
     })
-    .then(data => {
+    .then(async (data) => {
         if(data.data.type == 'error') {
             notycallerror(data.data.text);
         } else {
@@ -125,9 +171,13 @@ function handleWithdrawRequest() {
 
             if(this.parentNode.parentNode.id) {
                 this.parentNode.parentNode.remove();
-                console.log(this.parentNode.parentNode.parentNode.length);
             } else {
+                let newButton = await addFriendButtonDiv(data.data);
+                let parentNode = this.parentNode;
+                while(parentNode.firstChild)
+                    parentNode.removeChild(parentNode.lastChild);
 
+                parentNode.prepend(newButton);
             }
         }
         return;
@@ -144,11 +194,32 @@ function handleAcceptRequest() {
             userid: this.dataset.thisusersid
         }
     })
-    .then(data => {
+    .then(async (data) => {
         if(data.data.type == 'error') {
-
+            notycallerror(data.data.text);
         } else {
+            notycallsuccess(data.data.text);
 
+            if(this.parentNode.parentNode.id) {
+                await this.parentNode.parentNode.remove();
+
+                let maxx = 0;
+                await Array.from(acceptedFriendsList[0].getElementsByTagName('div')).forEach(div => {
+                    let idval = parseInt(div.id.split('-')[1]);
+                    if(idval > maxx)
+                        maxx = idval
+                })
+                
+                let newDiv = await friendItemDiv(data.data, maxx+1);
+                await acceptedFriendsList[0].appendChild(newDiv);
+            } else {
+                let newButton = await removeFriendButtonDiv(data.data);
+                let parentNode = this.parentNode;
+                while(parentNode.firstChild)
+                    parentNode.removeChild(parentNode.lastChild);
+
+                parentNode.prepend(newButton);
+            }
         }
     })
     .catch(err => {
@@ -160,14 +231,25 @@ function handleAcceptRequest() {
 function handleDeclineRequest() {
     axios.get('/declineRequest', {
         params: {
-            userid: this.dataset.thisuserid
+            userid: this.dataset.thisusersid
         }
     })
-    .then(data => {
+    .then(async (data) => {
         if(data.data.type == 'error') {
-
+            notycallerror(data.data.text);
         } else {
-            
+            notycallsuccess(data.data.text);
+
+            if(this.parentNode.parentNode.id) {
+                this.parentNode.parentNode.remove();
+            } else {
+                let newButton = await addFriendButtonDiv(data.data);
+                let parentNode = this.parentNode;
+                while(parentNode.firstChild)
+                    parentNode.removeChild(parentNode.lastChild);
+
+                parentNode.prepend(newButton);
+            }
         }
     })
     .catch(err => {
