@@ -16,9 +16,20 @@
 .profile-image-item { 
     grid-area: prof; 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
+
+.friends-button-div {
+    margin: 10px 0 10px 0;
+}
+
+.user-friends-button {
+    background-color: #308b70;
+    color: white;
+}
+
 .profile-desc-item { 
     grid-area: desc; 
 }

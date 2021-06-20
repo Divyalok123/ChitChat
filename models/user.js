@@ -21,12 +21,35 @@ const userSchema = new Schema({
         required: true
     },
     avatar: {
-        type: String,
-        unique: true
+        type: String
     },
     desc: {
         type: String
-    }
+    },
+    pendingRequests: [
+        {
+            userid: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        }
+    ], 
+    sentRequests: [
+        {
+            userid: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        }
+    ],
+    friendsList: [
+        {
+            userid: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        }
+    ]
 }, { timestamps: true});
 
 // multer
@@ -59,7 +82,7 @@ userSchema.statics.multerUpload = multer({
 userSchema.statics.avatarPath = AVATAR_PATH;
 
 //fuzzy searching
-userSchema.plugin(mongoose_fuzzy_searching, { fields: ['username']});
+userSchema.plugin(mongoose_fuzzy_searching, { fields: [ {name: 'username', prefixOnly: true} ]});
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

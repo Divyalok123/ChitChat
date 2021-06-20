@@ -1,7 +1,22 @@
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
 const passport = require("passport");
 const localStrategy = require("passport-local");
-const bcrypt = require("bcrypt");
-const User = require("../models/user");
+
+passport.serializeUser(function(user, done){
+    done(null, user.id);
+})
+
+passport.deserializeUser(function(id, done){
+    User.findById(id, function(err, user) {
+        if(err) {
+            console.log('Error occured while deserializing: ', err);
+            done(err);
+        }
+
+        done(null, user);
+    })
+})
 
 passport.use(
 	new localStrategy(
@@ -41,23 +56,7 @@ passport.use(
 				});
 		},
 	),
-);
-
-
-passport.serializeUser(function(user, done){
-    done(null, user.id);
-})
-
-passport.deserializeUser(function(id, done){
-    User.findById(id, function(err, user) {
-        if(err) {
-            console.log('Error occured while deserializing: ', err);
-            done(err);
-        }
-
-        done(null, user);
-    })
-}) 
+); 
 
 passport.checkIfAuthenticated = (req, res, next) => {
     if(req.isAuthenticated()) {

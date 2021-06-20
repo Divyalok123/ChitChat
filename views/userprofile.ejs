@@ -20,11 +20,18 @@
         <% } %>
       </div>
     </div>
+    <% if(profile_user.id === locals.user.id) { %>
+    <div class="friends-button-div">
+      <a href="/friends">
+        <button type="button" class="btn user-friends-button">Friends/Requests</button>
+      </a>
+    </div>
+    <% } %>
   </div>
   <div class="profile-desc-item">
     <h3>Description</h3>
     <p>
-      <% if(profile_user)  { %>
+      <% if(profile_user && profile_user.desc)  { %>
         <%= profile_user.desc %>
       <%} else { %>
         Please add a description...
@@ -34,6 +41,7 @@
   </div>
   <div class="profile-update-item">
     <% if(profile_user.id === locals.user.id) { %>
+      <h4>Update Profile</h4>
       <form action="/update/<%= locals.user._id %>" method="POST" enctype="multipart/form-data">
         <div class="form-group mb-3">
           <label for="profile-image" class="mb-2">New profile image</label>

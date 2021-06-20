@@ -30,7 +30,7 @@ module.exports.update = async (req, res) => {
                         req.flash('error', err);
                     return res.redirect('back');
                 } else {
-                    if(typeof req.file == 'undefined' && typeof req.body.description == 'undefined') {
+                    if(typeof req.file == 'undefined' && (typeof req.body.description == 'undefined' || req.body.description.length == 0)) {
                         req.flash('error', 'No description or file provided!');
                         return res.redirect('back');
                     } 
