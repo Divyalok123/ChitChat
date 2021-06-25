@@ -11,10 +11,8 @@
                 </div> -->
                 <h4 class="sidebar-header">Users</h4>
                 <div class="chatbox-users sidebar-items">
-                    <% for(let i = 0; i < users.length; i++) { %>
-                        <% if(users[i].id != locals.user.id) { %>
-                            <p class="chatbox-sidebar-button" id="<%= users[i].id %>"><%= users[i].username %></p>
-                        <% } %>
+                    <% for(let i = 0; i < friends.length; i++) { %>
+                        <p class="chatbox-sidebar-button" id="<%= friends[i].userid.id %>"><%= friends[i].userid.username %></p>
                     <% } %>
                 </div>
             </div>
@@ -32,12 +30,12 @@
                 <div class="message-box">
                     <ul class="chatbox-messages font-raleway">
                         <li class="sender-message chat-message">
-                            <span class="message-content">Sender guy</span>
-                            <span class="message-time">12:13</span>
+                            <span class="message-content">Sender</span>
+                            <span class="message-time">25 Jun 2021, 13:37</span>
                         </li>
                         <li class="own-message chat-message">
                             <span class="message-content">Receiver</span>
-                            <span class="message-time">10:12</span>
+                            <span class="message-time">25 Jun 2021, 13:37</span>
                         </li>
                     </ul>
                 </div>

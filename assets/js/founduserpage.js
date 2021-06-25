@@ -139,7 +139,12 @@ function handleRemoveFriend() {
             notycallsuccess(data.data.text);
 
             if(this.parentNode.parentNode.id) {
-                this.parentNode.parentNode.remove();
+                let mainparentNode = this.parentNode.parentNode;
+                let parentofmainparent = mainparentNode.parentNode;
+                mainparentNode.remove();
+                if(parentofmainparent.childElementCount == 0) {
+                    parentofmainparent.innerHTML = "<div class=\"none-in-list\">No friends to show here.</div>";
+                }
             } else {
                 let newButton = await addFriendButtonDiv(data.data);
                 let parentNode = this.parentNode;
@@ -170,7 +175,12 @@ function handleWithdrawRequest() {
             notycallsuccess(data.data.text);
 
             if(this.parentNode.parentNode.id) {
-                this.parentNode.parentNode.remove();
+                let mainparentNode = this.parentNode.parentNode;
+                let parentofmainparent = mainparentNode.parentNode;
+                mainparentNode.remove();
+                if(parentofmainparent.childElementCount == 0) {
+                    parentofmainparent.innerHTML += "<div class=\"none-in-list\">No request sent.</div>";
+                }
             } else {
                 let newButton = await addFriendButtonDiv(data.data);
                 let parentNode = this.parentNode;
@@ -201,7 +211,12 @@ function handleAcceptRequest() {
             notycallsuccess(data.data.text);
 
             if(this.parentNode.parentNode.id) {
-                await this.parentNode.parentNode.remove();
+                let mainparentNode = this.parentNode.parentNode;
+                let parentofmainparent = mainparentNode.parentNode;
+                await mainparentNode.remove();
+
+                if(parentofmainparent.childElementCount == 0)
+                    parentofmainparent.innerHTML = "<div class=\"none-in-list\">No request pending.</div>";
 
                 let maxx = 0;
                 await Array.from(acceptedFriendsList[0].getElementsByTagName('div')).forEach(div => {
@@ -211,6 +226,11 @@ function handleAcceptRequest() {
                 })
                 
                 let newDiv = await friendItemDiv(data.data, maxx+1);
+                let currFirstDiv = acceptedFriendsList[0].firstElementChild;
+                if(currFirstDiv.className == "none-in-list") {
+                    acceptedFriendsList[0].removeChild(acceptedFriendsList[0].firstElementChild);
+                }
+
                 await acceptedFriendsList[0].appendChild(newDiv);
             } else {
                 let newButton = await removeFriendButtonDiv(data.data);
@@ -241,7 +261,13 @@ function handleDeclineRequest() {
             notycallsuccess(data.data.text);
 
             if(this.parentNode.parentNode.id) {
-                this.parentNode.parentNode.remove();
+                let mainparentNode = this.parentNode.parentNode;
+                let parentofmainparent = mainparentNode.parentNode;
+                await mainparentNode.remove();
+
+                if(parentofmainparent.childElementCount == 0)
+                    parentofmainparent.innerHTML = "<div class=\"none-in-list\">No request pending.</div>";
+
             } else {
                 let newButton = await addFriendButtonDiv(data.data);
                 let parentNode = this.parentNode;

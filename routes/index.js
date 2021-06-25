@@ -21,11 +21,6 @@ router.post('/login', passport.authenticate('local', {failureRedirect: '/signin'
 router.get('/logout', userController.logout); 
 router.post('/createuser', userController.createUser);
 
-router.get('/chatroom/:id', passport.checkIfAuthenticated, chatroomController.getUsers)
-
-//getting the user details for chatbox-user-change (in chatroom.js)
-router.get('/userdetails', passport.checkIfAuthenticated, chatroomController.getDetails);
-
 // user search
 router.get('/search', passport.checkIfAuthenticated, searchController.search);
 
@@ -38,5 +33,10 @@ router.get('/declineRequest', passport.checkIfAuthenticated, friendsController.d
 
 //friends page
 router.get('/friends', passport.checkIfAuthenticated, friendsController.sendFriends);
+
+//chatroom
+router.get('/chatroom/:id', passport.checkIfAuthenticated, chatroomController.getUsers);
+router.get('/userdetails', passport.checkIfAuthenticated, chatroomController.getDetails);
+router.get('/getchatid', passport.checkIfAuthenticated, chatroomController.getChatId);
 
 module.exports = router;

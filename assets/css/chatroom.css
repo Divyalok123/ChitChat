@@ -66,6 +66,10 @@
     background: rgba(236, 230, 230, 15%);
 }
 
+.setBackgroundForButton {
+    background: rgba(236, 230, 230, 30%) !important;
+}
+
 /* chat content */
 .chatbox-content {
     transition: 250ms;

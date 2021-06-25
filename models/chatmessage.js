@@ -12,11 +12,9 @@ const messageSchema = new Schema({
         type: String,
         default: dayjs().format('D MMM YYYY HH:mm')
     }, 
-    sender: {
-        type: String
+    senderId: {
+        type: mongoose.Schema.Types.ObjectId
     }
-},{
-    timestamps: false
 });
 
 const ChatMessage = mongoose.model('ChatMessage', messageSchema);
