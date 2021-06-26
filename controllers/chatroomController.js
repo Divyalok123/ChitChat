@@ -49,11 +49,33 @@ module.exports.getChatId = async (req, res) => {
         }
 
         // console.log('chatRoomController > getChatId > receiverId: ', receiverId, ' senderid: ', senderId);
-        return res.json({
+        return res.status(200).json({
             chatId: currentChat._id
         });
     } catch (err) {
         console.log('Error in chatroomController > getChatId: ', err);
-        return;
+    }
+}
+
+module.exports.addMessage = async (req, res) => {
+    try {
+        const newChatMessage = new ChatMessage(req.body);
+        // console.log('chatroomController > addMessage > newChatmessage: ', newChatMessage);
+        await newChatMessage.save();
+        return res.status(200).json(newChatMessage);
+    } catch (err) {
+        console.log('Error in chatroomController > getChatId: ', err);
+        return res.status(500).json(err);
+    }
+}
+
+module.exports.getChatMessages = async (req, res) => {
+    try {
+        let chatId = req.query.chatId;
+        let messages = await ChatMessage.find({chatId: chatId});
+        return res.status(200).json(messages);
+    } catch (err) {
+        console.log('Error in chatroomController > getChatMessages: ', err);
+        return res.status(500).json(err);
     }
 }

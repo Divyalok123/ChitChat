@@ -29,17 +29,10 @@
                 </div>
                 <div class="message-box">
                     <ul class="chatbox-messages font-raleway">
-                        <li class="sender-message chat-message">
-                            <span class="message-content">Sender</span>
-                            <span class="message-time">25 Jun 2021, 13:37</span>
-                        </li>
-                        <li class="own-message chat-message">
-                            <span class="message-content">Receiver</span>
-                            <span class="message-time">25 Jun 2021, 13:37</span>
-                        </li>
+                        <li style="list-style: none; text-align: center;">Open a chat from the sidebar</li>
                     </ul>
                 </div>
-                <form action="#" id="input-form" class="message-input-box">
+                <form id="input-form" class="message-input-box" action="javascript:void(0)">
                     <input type="text" id="message-input">
                     <button id="message-send" type="submit">Send</button>
                 </form>
@@ -48,7 +41,7 @@
     </div>
 </div>
 
-<script src="/js/chatroom.js" type="text/javascript"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/clientSockets.js"></script>
+<script src="/js/chatroom.js" type="text/javascript"></script>
 

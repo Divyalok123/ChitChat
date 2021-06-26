@@ -8,9 +8,33 @@ module.exports = (server) => {
     var io = socketio(server);
 
     io.on('connection', async (socket) => {
+        let socketId = socket.id;
+
+
         socket.emit('user connected', "connected");
-        console.log(socket.id);
-        socket.on('hey', (arg) => {console.log(arg)});
+
+        socket.on('addUser', (userId) => {
+            if(!users.find((user) => user.userId == userId)) {
+                users.push({
+                    userId: userId, 
+                    socketId: socket.id
+                });
+                // console.log('serverSockets > Users: ', users);
+            }
+        })
+
+        
+        socket.on('sendMessage', ({receiverId, message}) => {
+            let receiver = users.find((user) => user.userId == receiverId);
+            if(receiver) {
+                socket.to(receiver.socketId).emit('getMessage', {receiverId, message});
+            }
+        });
+
+        socket.on('disconnect', () => {
+            // console.log('User with socket Id: ', socketId, ' disconnected!');
+            users = users.filter((user) => user.socketId != socketId);
+        })
     })
     
 }

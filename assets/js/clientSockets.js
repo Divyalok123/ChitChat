@@ -2,9 +2,37 @@ var socket = io();
 
 /* Chatbox User Button */
 var chatboxSidebarButton = document.querySelectorAll('.chatbox-sidebar-button');
-var currentUserInChat;
-var currentChatButton;
-var currentChatId;
+var chatboxMessageList = document.querySelectorAll('.chatbox-messages')[0];
+var messageSendButton = document.querySelector('#message-send');
+var messageInput = document.querySelector('#message-input');
+var messageForm = document.querySelector('#input-form');
+var chatInputForm = document.querySelector('#input-form');
+var urlObject = window.location;
+var currentUserInChat, 
+    currentChatButton,
+    currentChatId;
+var thisuserid = urlObject.pathname.split('/')[2];
+
+var senderMessageDiv = (messageData) => {
+    let newlistItem = document.createElement('li');
+    newlistItem.setAttribute('class', 'sender-message chat-message');
+    newlistItem.innerHTML = `
+        <span class="message-content">${messageData.content}</span>
+        <span class="message-time">${messageData.messageTime}</span>
+    `
+
+    return newlistItem;
+};
+
+var ownMessageDiv = (messageData) => {
+    let newlistItem = document.createElement('li');
+    newlistItem.setAttribute('class', 'own-message chat-message');
+    newlistItem.innerHTML = `
+        <span class="message-content">${messageData.content}</span>
+        <span class="message-time">${messageData.messageTime}</span>
+    `
+    return newlistItem;
+};
 
 async function changeChatUser() {
     try {
@@ -37,25 +65,39 @@ async function changeChatUser() {
             console.log('Error in clientSockets.js > handleChatInputSubmit > /getchatid: ', err);
         })
 
-        
+        await axios.get('/getchatmessages', {
+            params: {
+                chatId: currentChatId
+            }
+        })
+        .then(data => {
+            let messages = data.data;
+
+            while(chatboxMessageList.firstChild)
+                chatboxMessageList.removeChild(chatboxMessageList.lastChild);
+
+            // messages.reverse();
+            messages.forEach(message => {
+                if(message.senderId == currentUserInChat._id) {
+                    chatboxMessageList.append(senderMessageDiv(message))
+                } else {
+                    chatboxMessageList.append(ownMessageDiv(message))
+                }
+            })
+            chatboxMessageList.scrollTop = chatboxMessageList.scrollHeight;
+        })
+        .catch(err => {
+            console.log('Error in clientSockets.js > handleChatInputSubmit > /getchatmessages: ', err);
+        })
 
     } catch (err) {
         console.log('Error in clientSockets > changeChatUser: ', err);
-        return;
     }
 }
 
 Array.from(chatboxSidebarButton).forEach(userButton => 
     userButton.addEventListener('click', changeChatUser)
 );
-
-/* Submit handler & client sockets */
-var messageSendButton = document.querySelector('#message-send');
-var messageInput = document.querySelector('#message-input');
-var messageForm = document.querySelector('#input-form');
-var chatInputForm = document.querySelector('#input-form');
-var urlObject = window.location;
-var thisuserid = urlObject.pathname.split('/')[2];
 
 async function handleChatInputSubmit(e) {
     e.preventDefault();
@@ -73,8 +115,16 @@ async function handleChatInputSubmit(e) {
             senderId: thisuserid
         }
 
-        console.log("clientSockets > handleChatInputSubmit > NewMessage: ", newmessage);
-        console.log("clientSockets > handleChatInputSubmit > Input: ", messageInput.value);
+        await axios.post('/addmessage', newmessage);
+
+        messageInput.value = "";
+        chatboxMessageList.append(ownMessageDiv(newmessage));
+        chatboxMessageList.scrollTop = chatboxMessageList.scrollHeight;
+
+        socket.emit('sendMessage', {
+            receiverId: currentUserInChat._id,
+            message: newmessage
+        });
 
     } catch (err) {
         console.log('Error in clientSockets.js > handleChatInputSubmit async: ', err);
@@ -88,13 +138,20 @@ function submitInput(e) {
     }
 }
 
+messageSendButton.addEventListener("keydown", submitInput);
+messageInput.addEventListener("keydown", submitInput);
+chatInputForm.addEventListener('submit', handleChatInputSubmit);
+
+socket.emit('addUser', thisuserid);
+
 socket.on('user connected', (arg) => {
     console.log(arg);
 })
 
-// socket.emit('hey', thisuserid);
-
-messageSendButton.addEventListener("keydown", submitInput);
-messageInput.addEventListener("keydown", submitInput);
-chatInputForm.addEventListener('submit', handleChatInputSubmit);
+socket.on('getMessage', ({receiverId, message}) => {
+    if(message.senderId == currentUserInChat._id) {
+        chatboxMessageList.append(senderMessageDiv(message));
+        chatboxMessageList.scrollTop = chatboxMessageList.scrollHeight;
+    }
+});
 

@@ -36,7 +36,9 @@ router.get('/friends', passport.checkIfAuthenticated, friendsController.sendFrie
 
 //chatroom
 router.get('/chatroom/:id', passport.checkIfAuthenticated, chatroomController.getUsers);
-router.get('/userdetails', passport.checkIfAuthenticated, chatroomController.getDetails);
-router.get('/getchatid', passport.checkIfAuthenticated, chatroomController.getChatId);
+router.get('/userdetails', chatroomController.getDetails);
+router.get('/getchatid', chatroomController.getChatId);
+router.get('/getchatmessages', chatroomController.getChatMessages);
+router.post('/addmessage', chatroomController.addMessage);
 
 module.exports = router;
