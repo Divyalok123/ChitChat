@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 //open a connection
-mongoose.connect('mongodb://localhost:27017/practice_db_1', {
+mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

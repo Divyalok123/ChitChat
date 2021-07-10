@@ -1,5 +1,7 @@
+require('dotenv').config()
+
 const express = require('express');
-const port = 2021;
+const port = process.env.APP_PORT || 2021;
 const app = express();
 const db = require('./config/mongoose');
 const expressLayouts = require('express-ejs-layouts');
@@ -26,7 +28,7 @@ app.use(favicon(path.join(__dirname,'assets', 'img', 'logoimg.png')));
 // express-session
 app.use(session({
     name: 'ChitChat',
-    secret: '%GnMIW95zfPXjzyDGyHB',
+    secret: process.env.APP_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -34,7 +36,7 @@ app.use(session({
         maxAge: 1000*60*60*24 //the expiry time of the cookie
     },
     store: MongoStore.create({ // mongostore for storing sessions in database
-        mongoUrl: 'mongodb://localhost:27017/practice_db_1'
+        mongoUrl: `mongodb://localhost:27017/${process.env.DB_NAME}`
     }, (err) => console.log('Error in mongoStore: ', err))
 
 }));
